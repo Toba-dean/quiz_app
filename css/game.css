@@ -39,6 +39,14 @@
   font-size: 2rem;
 }
 
+.correct {
+  background-color: #28a745;
+}
+
+.incorrect {
+  background-color: #dc3545;
+}
+
 /* Progress Style */
 
 #progress-bar {
@@ -46,6 +54,7 @@
   height: 4rem;
   border: 0.3rem solid #56a5eb;
   margin-top: 1.6rem;
+  overflow: hidden;
 }
 
 .progress-bar-full {
@@ -69,10 +78,11 @@
 
 @keyframes spin {
   0% {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
+
   100% {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
