@@ -18,9 +18,35 @@ let questions = [];
 const fetchQuestions = async url => {
   try {
     const res = await fetch(url)
-    const data = await res.json()
+    const { results } = await res.json()
 
-    questions = data.map(loadedQuestion => loadedQuestion)
+    questions = results.map(loadedQuestion => {
+      // formatting the result from the api into an object the way i want to use it
+      const formattedQuestion = {
+        Question: loadedQuestion.question
+      };
+
+      // spread the incorrect options into the answerChoices array
+      const answerChoices = [...loadedQuestion.incorrect_answers]
+
+      // get a random number from 1 - 4 for the correct answer(get a random index)
+      formattedQuestion.answer = Math.floor(Math.random() * 4) + 1;
+
+      // add the correct answer to the answer choices array by putting it at an index of obtained random number - 1 e.g(3 - 1 = 2)
+      // so the index to insert it will be 2
+      answerChoices.splice(
+        formattedQuestion.answer - 1, 0, loadedQuestion.correct_answer
+      );
+
+      // Iterate through the answerChoices then put each choice value into the formattedQuestion object as choice1, choice2, choice3, choice4
+      answerChoices.forEach((choice, idx) => {
+        formattedQuestion['choice' + (idx + 1)] = choice
+      });
+
+      // console.log(formattedQuestion);
+      return formattedQuestion
+
+    })
     // console.log(questions);
   } catch (error) {
     console.log(error.message);
@@ -29,11 +55,13 @@ const fetchQuestions = async url => {
   startGame()
 }
 
-fetchQuestions("/html/questions.json")
+const uri = "https://opentdb.com/api.php?amount=20&category=18&difficulty=medium&type=multiple"
+
+fetchQuestions(uri)
 
 
 const CORRECT_BONUS = 10;
-const MAX_QUESTIONS = 3;
+const MAX_QUESTIONS = 20;
 
 const startGame = () => {
   questionCounter = 0;
