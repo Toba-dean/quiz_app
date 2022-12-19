@@ -57,7 +57,7 @@ const getNewQuestion = () => {
   // check if the questions if finished or the array is empty
   if (availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
     // set the most recent score to the local storage
-    // localStorage.setItem("MostResentScore", score)
+    localStorage.setItem("MostResentScore", score)
 
     // render the end.html page, since questions is finished
     window.location.assign('/html/end.html')
